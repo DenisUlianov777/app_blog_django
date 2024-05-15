@@ -8,12 +8,10 @@ WORKDIR /blog
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-# установка зависимостей
 RUN apk update \
     && apk add postgresql-dev gcc python3-dev musl-dev
 RUN pip install --upgrade pip
 
-# установка зависимостей
 COPY ./requirements.txt .
 RUN pip wheel --no-cache-dir --no-deps --wheel-dir /blog/wheels -r requirements.txt
 
@@ -24,13 +22,11 @@ RUN pip wheel --no-cache-dir --no-deps --wheel-dir /blog/wheels -r requirements.
 
 FROM python:3.12.0-alpine
 
-# создаем директорию для пользователя
 RUN mkdir -p /home/blog
 
 # создаем отдельного пользователя и его группы
 RUN addgroup -S app && adduser -S app -G app
 
-# создание каталога для проекта
 ENV HOME=/home/blog
 ENV APP_HOME=/home/blog/web
 RUN mkdir $APP_HOME
@@ -38,24 +34,18 @@ RUN mkdir $APP_HOME/static
 RUN mkdir $APP_HOME/media
 WORKDIR $APP_HOME
 
-# установка зависимостей
 RUN apk update && apk add libpq
 COPY --from=builder /blog/wheels /wheels
 COPY --from=builder /blog/requirements.txt .
 RUN pip install --no-cache /wheels/*
 
-# копирование entrypoint-prod.sh
 COPY ./entrypoint.prod.sh .
 
-# копирование проекта Django
 COPY . $APP_HOME
 
-# смена владельца файлов и директорий проекта Django, на пользователя app
 RUN chown -R app:app $APP_HOME
 
-# изменение рабочего пользователя
 USER app
 
-# установим права и запустим скрипт проверки запуска БД
 RUN chmod +x /home/blog/web/entrypoint.prod.sh
 ENTRYPOINT ["/home/blog/web/entrypoint.prod.sh"]
