@@ -1,0 +1,1 @@
+[{"model": "bike_app.userpostrelation", "pk": 1, "fields": {"auth_user": 1, "bike": 10, "like": true, "rate": 3}}, {"model": "bike_app.userpostrelation", "pk": 2, "fields": {"auth_user": 1, "bike": 11, "like": true, "rate": null}}, {"model": "bike_app.userpostrelation", "pk": 3, "fields": {"auth_user": 1, "bike": 9, "like": true, "rate": null}}]

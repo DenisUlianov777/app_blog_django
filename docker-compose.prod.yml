@@ -1,0 +1,66 @@
+services:
+
+  web:
+    build:
+      context: ./blog
+      dockerfile: Dockerfile.prod
+    command: gunicorn bike_blog.wsgi:application --bind 0.0.0.0:8000
+
+    expose:
+      - 8000
+    volumes:
+      - static_volume:/home/blog/web/static
+      - media_volume:/home/blog/web/media
+#      - ./blog:/blog
+
+
+    env_file:
+      - .env.prod
+    depends_on:
+      - database
+      - redis
+
+  database:
+    image: postgres:16.1-alpine3.18
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - .env.prod
+
+  redis:
+    image: redis:latest
+    hostname: redis
+    ports:
+      - "6378:6379"
+
+  worker:
+    build:
+      context: ./blog
+      dockerfile: Dockerfile.prod
+    hostname: worker
+    entrypoint: celery
+    command: -A celery_app.app worker --loglevel=info
+    volumes:
+      - ./blog:/blog
+    links:
+      - redis
+    depends_on:
+      - redis
+      - database
+    env_file:
+      - .env.prod
+
+  nginx:
+    build: ./nginx
+    volumes:
+      - static_volume:/home/blog/web/static
+      - media_volume:/home/blog/web/media
+    ports:
+      - 8080:80
+    depends_on:
+      - web
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:

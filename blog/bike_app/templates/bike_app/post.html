@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block prop_content %}
+{% if post.auth_user == request.user %}
+<p>
+    <a href="{% url 'update_post' post.slug %}">Редактировать</a>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="{% url 'delete_post' post.slug %}">Удалить</a>
+</p>
+{% endif %}
+      {% if request.user.is_authenticated %}
+
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="hidden" value="{{ post.id }}" name="post_id">
+    <div class="form-error">{{ form.non_field_errors }}</div>
+
+{% for f in rate_form %}
+<p><label class="form-label" for="{{ f.id_for_label }}">{{f.label}}: </label>{{ f }}</p>
+<div class="form-error">{{ f.errors }}</div>
+{% endfor %}
+        <button type="submit">Оценить</button>
+    {% endif %}
+
+</form>
+{% endblock %}
+
+
+{% block content %}
+<h1>{{post.title}}</h1>
+ 
+{% if post.photo %}
+<p><img class="img-article-left" src="{{post.photo.url}}"></p>
+{% else %}
+<p ><img src="{{ default_img }}" width="200">
+{% endif %}
+
+{{post.content|linebreaks}}
+
+
+{% endblock %}

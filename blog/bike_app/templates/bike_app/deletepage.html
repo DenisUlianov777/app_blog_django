@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+ 
+{% block content %}
+<h1>{{title}}</h1>
+{{ request.get }}
+{{ request.user }}
+    <p>Вы уверены, что хотите удалить эту статью?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Удалить</button>
+        <a href="{{ bike.get_absolute_url }}">Отмена</a>
+    </form>
+
+{% endblock %}

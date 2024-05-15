@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+{% for p in posts %}
+<div class="card mb-3" style="max-width: 1100px;">
+
+    <div class="card-header">
+        <div class="d-flex bd-highlight">
+            <div class="p-2 flex-grow-1 bd-highlight">{{p.count_likes}} Likes
+                {% if user.is_authenticated %}
+                {% if p.liked_by_user %}
+                <a href="{% url 'reader_like' p.id %} " class="btn btn-danger btn-sm">Unlike</a>
+                {% else %}
+                <a href="{% url 'reader_like' p.id %}" class="btn btn-primary btn-sm">Like</a>
+                {% endif %}
+                {% endif %}
+            </div>
+            <div class="p-2 bd-highlight">Рейтинг: {{ p.rating | floatformat | default:'нет оценок'}}</div>
+
+        </div>
+    </div>
+    <div class="row g-0">
+        <div class="col-md-4">
+            {% if p.photo %}
+            <img src="{{p.photo.url}}" class="img-fluid rounded-start" alt="Нет картинки">
+            {% else %}
+            <p><img src="{{ default_img }}" class="img-fluid rounded-start">
+                {% endif %}
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h4 class="card-title">{{p.title}}</h4>
+                <p class="card-text">{% autoescape on %}
+                    {{p.content|linebreaks|truncatewords:5}}
+                    {% endautoescape %}</p>
+                {% with p.tags.all as tags %}
+                {% if tags %}
+                <p class="card-text">
+                    {% for t in tags %}
+                    <a href="{{t.get_absolute_url}}" class="badge bg-secondary">{{t.tag}}</a>
+                    {% endfor %}
+                </p>
+                {% endif %}
+                {% endwith %}
+                <a href="{{ p.get_absolute_url }}" class="btn btn-primary pull-right">Читать пост</a>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer w-100 text-muted">
+        <div class="d-flex bd-highlight">
+            <div class="p-2 flex-grow-1 bd-highlight">Категория: {{p.cat}}</div>
+            <div class="p-2 bd-highlight">Опубликовано: {{p.modified|date:"d-m-Y"}}</div>
+
+        </div>
+
+
+    </div>
+</div>
+{% endfor %}
+
+
+{% endblock %}
