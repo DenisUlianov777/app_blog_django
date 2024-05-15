@@ -1,4 +1,4 @@
-# Blog Web Application с использованием следующих технологий:
+# Blog Web Application с использованием стека технологий:
 
 <img src="https://img.shields.io/badge/Python-4169E1?style=for-the-badge"/> <img src="https://img.shields.io/badge/Django-008000?style=for-the-badge"/> <img src="https://img.shields.io/badge/DRF-800000?style=for-the-badge"/> <img src="https://img.shields.io/badge/Docker-00BFFF?style=for-the-badge"/> <img src="https://img.shields.io/badge/PostgreSQL-87CEEB?style=for-the-badge"/> <img src="https://img.shields.io/badge/Nginx-67c273?style=for-the-badge"/> <img src="https://img.shields.io/badge/Gunicorn-06bd1e?style=for-the-badge"/> <img src="https://img.shields.io/badge/Redis-800000?style=for-the-badge"/> <img src="https://img.shields.io/badge/Celery-06bd1e?style=for-the-badge"/> <img src="https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white"/> <img src="https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white"/>
 
@@ -66,3 +66,7 @@ http://127.0.0.1:80
 ```
 /api/v1/rschema/swagger-ui/
 ```
+
+*Пример веб-страницы приложения:*
+
+![Imgur Image](https://github.com/DenisUlianov777/try/blob/main/blog_bikes.PNG)
