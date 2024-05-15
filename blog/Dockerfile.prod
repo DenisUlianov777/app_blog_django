@@ -24,7 +24,6 @@ FROM python:3.12.0-alpine
 
 RUN mkdir -p /home/blog
 
-# создаем отдельного пользователя и его группы
 RUN addgroup -S app && adduser -S app -G app
 
 ENV HOME=/home/blog
