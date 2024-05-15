@@ -13,6 +13,7 @@ cd app_blog_django/
 ```
 
 Cоздать .env.prod файл.
+
 Например:
 ```
 DEBUG=True
