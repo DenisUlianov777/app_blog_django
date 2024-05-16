@@ -31,10 +31,10 @@ DB_PORT=5432
 DATABASE=postgres
 
 CACHE_BACKEND='django.core.cache.backends.redis.RedisCache'
-CACHE_LOCATION='redis://redis:6378/1'
+CACHE_LOCATION='redis://redis:6379/1'
 
-CELERY_BROKER_URL='redis://redis:6378/0'
-CELERY_RESULT_BACKENDS='redis://redis:6378/0'
+CELERY_BROKER_URL='redis://redis:6379/0'
+CELERY_RESULT_BACKENDS='redis://redis:6379/0'
 
 SOCIAL_AUTH_GITHUB_KEY='fbfdbfbr3'
 SOCIAL_AUTH_GITHUB_SECRET='b43brgehehdfhgdg'
@@ -49,6 +49,7 @@ EMAIL_USE_SSL=True
 *Собрать и запустить Docker-контейнеры:*
 ```
 docker-compose -f docker-compose.prod.yml up -d --build
+docker-compose -f docker-compose.prod.yml exec web python manage.py makemigrations
 docker-compose -f docker-compose.prod.yml exec web python manage.py migrate --noinput
 docker-compose -f docker-compose.prod.yml exec web python manage.py collectstatic --no-input
 ```
@@ -56,7 +57,7 @@ docker-compose -f docker-compose.prod.yml exec web python manage.py collectstati
 
 *Теперь проект доступен по адресу:*
 ```
-http://127.0.0.1:80
+http://127.0.0.1:8080
 ```
 
 *Документация для API:*
