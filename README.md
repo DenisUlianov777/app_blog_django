@@ -49,6 +49,9 @@ EMAIL_USE_SSL=True
 *Собрать и запустить Docker-контейнеры:*
 ```
 docker-compose -f docker-compose.prod.yml up -d --build
+```
+*Выполнить миграции и собрать статические файлы:*
+```
 docker-compose -f docker-compose.prod.yml exec web python manage.py makemigrations
 docker-compose -f docker-compose.prod.yml exec web python manage.py migrate --no-input
 docker-compose -f docker-compose.prod.yml exec web python manage.py collectstatic --no-input
