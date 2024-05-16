@@ -12,7 +12,7 @@ https://github.com/DenisUlianov777/app_blog_django.git
 cd app_blog_django/
 ```
 
-Cоздать .env.prod файл.
+Cоздать .env файл.
 
 Например:
 ```
