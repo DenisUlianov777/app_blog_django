@@ -10,16 +10,14 @@ from .models import *
 class BikeAdmin(admin.ModelAdmin):
     fields = ('title', 'slug', 'content', 'photo', 'post_photo', 'is_published', 'cat', 'tags', 'auth_user')
     list_display = ('id', 'title', 'created', 'post_photo', 'is_published', 'cat', 'num_char')  # поля списка постов
-    list_display_links = ('id', 'title')  # Кликабельные поля
+    list_display_links = ('id', 'title')
     readonly_fields = ['post_photo', 'slug']
-    # ordering = ['title']
     search_fields = ('title', 'cat__name')
-    list_editable = ('is_published', )  # Редактирование
+    list_editable = ('is_published',)
     list_filter = ('is_published', 'created', 'cat__name')
-    filter_horizontal = ['tags']  # отображение выбора тегов(многие ко многим)
-    list_per_page = 10  # Пагинация
-    # prepopulated_fields = {"slug": ("title",)}  # формирование слага на основе тайтл(при условии редактируемого поля)
-    save_on_top = True  # панель сохранения редактирования
+    filter_horizontal = ['tags']
+    list_per_page = 10
+    save_on_top = True
     actions = ['set_published', 'set_unpublished']
 
     @admin.display(description='Изображение', ordering='')
@@ -30,7 +28,7 @@ class BikeAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         queryset = super().get_queryset(request)
-        return queryset.annotate(len_content=Length('content'))  # оптимизация запроса
+        return queryset.annotate(len_content=Length('content'))
 
     @admin.display(description='Кол-во символов', ordering='len_content')
     def num_char(self, bike: Bike):
@@ -53,13 +51,11 @@ class CategoryAdmin(admin.ModelAdmin):
     search_fields = ('name',)
     prepopulated_fields = {"slug": ("name",)}
 
+
 class TagsAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("tag",)}
-
 
 
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Tags, TagsAdmin)
 admin.site.register(UserPostRelation)
-
-
